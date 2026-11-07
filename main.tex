@@ -34,8 +34,8 @@
 \newcommand{\dU}{d_U}
 \newcommand{\Dir}{E}
 \title{The multiplicative complexity of the three-bit low-half multiplier}
-
-\author{ ALhodali Bshara and Gregory Morse}
+% TODO: Confirm Bishara's surname and both authors' names and order.
+\author{ Alhodali Bshara and Gregory Morse}
 \date{}
 \hypersetup{pdftitle={The multiplicative complexity of the three-bit low-half multiplier},pdfauthor={Bishara and Gregory Morse}}
 \begin{document}
@@ -95,7 +95,7 @@ For any space $Q$ of 2-forms, put
 \]
 For a prefix of linear gates with quadratic parts spanning $Q$, subtracting the corresponding gate combination shows that its available space is $V(Q)$. For four gates this gives the following formulation, in which the four quadratic parts span $Q$. If some gates are redundant, retain an independent subset of their quadratic parts containing $P_0$ and extend it to four independent rank-two forms using quadratic monomials. This only enlarges availability and is the extension referred to below.
 \begin{lemma}\label{l4:lem:Qonly}
-With the gates $g_1,g_2,g_3$ extended accordingly, $V_4=V_4(Q):=\{f:\deg f\le 2,\ \pi_2(f)\in Q\}$.
+If the first $j$ gates have affine factors and their quadratic parts span $Q$, then $V_j=V(Q):=\{f:\deg f\le 2,\ \pi_2(f)\in Q\}$. In particular, for the extended four-gate prefix, $V_4=V_4(Q)=V(Q)$.
 \end{lemma}
 
 \begin{proof}
@@ -251,7 +251,7 @@ If $c=d=0$ this makes $\delta_e$ constant. If $c=1$, it gives $h=df+A$ for an af
 \end{proof}
 
 
-Throughout this section $f,h$ have degree at most $2$, $\omega=f_2$, $\eta=h_2$. The \emph{plane operations} replace $(f,h)$ by $(h,f)$, $(f,f+h)$, $(f+h,h)$ or $(f,h+1)$. They change $fh$ by an element of $\Span\{1,f,h\}$ (because $f^2=f$), hence $(fh)_2$ by an element of $\langle\omega,\eta\rangle$, and they act transitively on ordered bases of $\langle\omega,\eta\rangle$.
+In the Radical and Product lemmas, $f,h$ have degree at most $2$, and we write $\omega=f_2$ and $\eta=h_2$. The \emph{plane operations} replace $(f,h)$ by $(h,f)$, $(f,f+h)$, $(f+h,h)$ or $(f,h+1)$. They change $fh$ by an element of $\Span\{1,f,h\}$ (because $f^2=f$), hence $(fh)_2$ by an element of $\langle\omega,\eta\rangle$, and they act transitively on ordered bases of $\langle\omega,\eta\rangle$.
 
 \begin{lemma}[Radical lemma]\label{l3:lem:rad}
 If $\deg(fh)\le3$, $\rk\eta\ge4$ and $x\in\rad\eta$, then $\iota_x\omega=0$. Consequently, if $\deg(fh)\le 3$ and both $\omega,\eta$ have rank at least $4$, then $\rad\omega=\rad\eta$ and $\supp\omega=\supp\eta$.
@@ -693,7 +693,7 @@ Let $Z_1\notin Q_3$ and let $g_3$ place $z_1$. Then no $g_4=FH$ ($F,H\in V_4$) h
 \end{proposition}
 
 \begin{proof}
-$z_2\notin V_4$ by degree (Lemma~\ref{l3:lem:abs}), so $g_4\in z_2+V_4=z_2+V(Q')$ with $F,H\in V(Q')$. If necessary extend the rank-two generating set of $Q'$ to four independent rank-two forms; this only enlarges the available space. Theorem~\ref{l4:thm:main} then excludes the displayed last product.
+$z_2\notin V_4$ by degree (Lemma~\ref{l3:lem:abs}), so $g_4\in z_2+V_4=z_2+V(Q')$ with $F,H\in V(Q')$. Choose a rank-two basis of $Q'$ containing $P_0$, by taking a maximal independent subset of the displayed generators starting with $P_0$. If $\dim Q'<4$, extend this basis to four rank-two forms with independent quadratic monomials, and let $Q^+$ be their span. Then $Q'\subseteq Q^+$ and $Z_1\in Q^+$, so the displayed product would satisfy $FH\in z_2+V(Q^+)$ with $F,H\in V(Q^+)$; enlarging the space only enlarges the available functions. This contradicts Theorem~\ref{l3:thm:L4}.
 \end{proof}
 
 \subsection{Case $Z_1\in Q_3$}
@@ -824,7 +824,7 @@ A=a_0+c_0,\qquad B=b_0+c_1,\qquad
 (1+k)A=(1+k)B=0
 \]
 for constants $c_0,c_1$. Hence $1+k$ is supported on $A=B=0$. In coordinates $A,B,a_1,b_1$ every function with this support is $(1+A)(1+B)H(a_1,b_1)$. If $H$ had degree $d>0$, its product would have a nonzero degree-$d+2$ term involving $AB$, incompatible with $\deg(1+k)\le2$. Thus $H$ is constant, and $k$ depends only on $a_0,b_0$.
-On a low-bit fiber $(s,t)\ne(1,1)$, the carry is zero. The displayed transformed expression for $q_2$ leaves the quadratic part $a_1b_1$: its shift corrections and the allowed $P_0,Z_1$ and affine terms are affine on that fiber, while $\epsilon=0$ removes $pq$. Consequently $R$ is nonzero on every such fiber. Since $k$ is constant there, $kR=R$ requires $k=1$ on all three. Its value on $(1,1)$ is free, giving exactly $1$ or $1+P_0$.
+On a low-bit fiber $(s,t)\ne(1,1)$, the carry is zero. The displayed transformed expression for $q_2$ leaves the quadratic part $a_1b_1$: its shift corrections and the allowed $P_0,Z_1$ and affine terms are affine on that fiber, while $\epsilon=0$ removes $pq$. Consequently $R$ is nonzero on every such fiber. Since $k$ is constant there, $kR=R$ requires $k=1$ on all three. Thus $k$ is one on the three fibers other than $(1,1)$, which gives $k\in\{1,1+P_0\}$.
 This checks that the full-type contradiction uses only the invariants and the explicitly preserved fiber property listed above.
 \end{proof}
 
@@ -903,7 +903,7 @@ The affine factor is a nonzero homogeneous linear function $B$. The cubic part i
 For every $g_1=fh$, $f,h\in V_1$, none of $z_1,z_2,z_1+z_2$ belongs to $V_2=V_1+\langle g_1\rangle$.
 \end{lemma}
 \begin{proof}
-Lemma~\ref{l1:lem:cubic} gives $\deg g_1\le3$, excluding $z_2$ and $z_1+z_2$, both of degree four. If $z_1\in V_2$, then $g_1\in z_1+V_1$ is quadratic. The product lemma gives $(g_1)_2=\pi+\rho$, with $\pi\in\langle P_0\rangle$ and $\rho$ zero or rank two. But $\rho$ would equal $Z_1$ or $Z_1+P_0$, both of rank four. This is impossible.
+The quartic part $f_2\wedge h_2$ vanishes because both factors have quadratic parts in $\langle P_0\rangle$, so $\deg g_1\le3$. This excludes $z_2$ and $z_1+z_2$, both of degree four. If $z_1\in V_2$, then $g_1\in z_1+V_1$ is quadratic. If both factors are affine, $(g_1)_2=f_1\wedge h_1$ has rank at most two; take $\pi=0$ and $\rho=f_1\wedge h_1$. Otherwise the Product lemma gives $(g_1)_2=\pi+\rho$, with $\pi\in\langle P_0\rangle$ and $\rho$ zero or rank two. But $\rho$ would equal $Z_1$ or $Z_1+P_0$, both of rank four. This is impossible.
 \end{proof}
 
 \subsection[A structural restriction on feedback placing z1]{A structural restriction on feedback placing $z_1$}
@@ -1211,7 +1211,7 @@ $\dU=2$ & $P_1,P_2,P_3$ share one type $v$; Lemma~\ref{l4:lem:deriv} & 145\\
 \end{center}
 A separate randomized derivative check considered $20\,000$ spaces satisfying the killing-direction hypothesis and found no solution. The four-dimensional feasibility count is $4\,168$; the genuine rank-two-generated spaces form $783$ orbits, of which $685$ are excluded by Lemma~\ref{l4:lem:deriv} and $98$ by Proposition~\ref{l4:prop:B}.
 \subsection{Three-linear-gate checks}
-The checks use no SAT solver. ``All $Q_3$'' means all 164\,596 distinct spaces $\Span\{P_0,P_1,P_2\}$ with $P_1,P_2$ of rank 2, including degenerate ones; their dimensions $1,2,3$ occur $1$, $605$ and $163\,990$ times. ``all planes'' means all 2-dimensional subspaces $\langle f,h\rangle$ of $V_3/\langle1\rangle$ not inside $\Aff$.
+The checks use no SAT solver. ``All $Q_3$'' means all 164\,596 distinct spaces $\Span\{P_0,P_1,P_2\}$ with $P_1,P_2$ of rank 2, including those with dependent generators; their dimensions $1$, $2$, $3$ occur $1$, $605$ and $163\,990$ times; ``all planes'' means all 2-dimensional subspaces $\langle f,h\rangle$ of $V_3/\langle1\rangle$ not inside $\Aff$.
 
 {\small
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.22\textwidth} >{\raggedright\arraybackslash}p{0.35\textwidth} >{\raggedright\arraybackslash}p{0.35\textwidth}@{}}
@@ -1234,7 +1234,7 @@ Lemma~\ref{l3:lem:D1} & all $Q_3$ of dimension 3, all generator pairs $R_1,R_2\n
 Lemma~\ref{l3:lem:C} & no $f,h\in V_3$ with $fh\equiv z_2$ or $z_1+z_2$, all $Q_3$, all planes & 0 and 0; branch counts as in the proof (no-kill $\dU=2$ cases all have $R$ full; no-kill $\dU=1$ cases never have an $\Omega$-pair) \\
 Lemma~\ref{l3:lem:abs}, Proposition~\ref{l3:prop:B} & for every $Q_3$ with $Z_1\notin Q_3$ and minrank 2: $Q'$ spanned by rank-2 forms containing $Z_1$; killing directions of $Q'$ = those of $Q_3$; no-kill $\Rightarrow$ $\dU(Q')=3$, $R$ full & 15\,219 spaces, 0 violations \\
 Lemma~\ref{l3:lem:B3U} & $Z_1\in Q_3$ $\Rightarrow$ $Q_3\subseteq\Lam(U)$ & 11 spaces, all inside \\
-Lemma~\ref{toolkit:coset} & exact and level-i statements, 11 spaces $\times$ 42\,784 $g_3$, all $F,H\in V_3$ (524\,800 products) & 0 violations in both; positive controls detected \\
+Lemma~\ref{toolkit:coset} & exact statement for the 11 core spaces $Q_3$: all 42\,784 nonlinear factor planes for $g_3$ and all 524\,800 unordered pairs of factors $F,H\in V_3$ & 0 violations; positive controls detected \\
 Lemma~\ref{toolkit:coset} & exact statement, 470\,624 pairs $(Q_3,g_3)$ $\times$ 1\,024 $k$ & 0 violations; positive control detected \\
 Lemma~\ref{toolkit:coset} & all $2\times4$ rank-2 matrices & 210 matrices, 0 violations \\
 \end{longtable}
@@ -1247,7 +1247,7 @@ All functions are stored as 64-bit ANF masks. Multiplication uses an involutory 
 
 A factor plane is a two-dimensional subspace modulo constants. Its three nonzero vectors are ordered $i<j<i+j$. Changing constants or a plane basis changes the product only by an available function. Dependent factors add nothing. A space is always reduced as a space of actual functions; redundant signal coordinates are discarded.
 
-For a quadratic space $B$ and a preceding signal $g$, every next gate either has both factors in $B$, or normalizes to $k(g+F)$ with $k,F\in B$. To test $k(g+F)\in T+B$ exactly, enumerate every $k$ satisfying the necessary identity $(1+k)(T+v)=0$ for some $v\in B$, then enumerate the complete image $kB$ modulo $B$. Constants in $k$ absorb the possible $g$ term in the output correction. This is an exact finite test, not a derivative approximation. The implementation also applies to bases containing cubic functions.
+For placement of a target $T$ from $B+\langle g\rangle$, first test products with both factors in $B$ modulo $B+\langle g\rangle$. Any other placing product can be reduced by plane operations and absorption of the output correction to a condition $k(g+F)\in T+B$ with $k,F\in B$. To test $k(g+F)\in T+B$ exactly, enumerate every $k$ satisfying the necessary identity $(1+k)(T+v)=0$ for some $v\in B$, then enumerate the complete image $kB$ modulo $B$. Constants in $k$ absorb the possible $g$ term in the output correction. This is an exact finite test, not a derivative approximation. The implementation also applies to bases containing cubic functions.
 
 The full search checks both earlier targets $z_2,z_1+z_2$, both placements of $z_1$, and the final gate. If $z_1$ is placed by $g_3$, its resulting space is exactly $V(Q)+\langle g_2,z_1\rangle$, independent of the placing plane. If $z_1$ is placed by $g_2$, every subsequent nonlinear plane is tested. The last gate is allowed to be any product, a safe enlargement. Both complete normalized searches return no circuit.
 
@@ -1263,10 +1263,10 @@ Item & Exact checked domain & Result\\\midrule
 
 Lemma~\ref{l2:lem:replace} & All 606 $Q$, all nonlinear planes; 83 symmetry representatives & 833,824 representative planes; 18,912 quadratic products; zero failures\\
 Lemma~\ref{l2:lem:sym} & All 32 maps, 1,024 compositions, 64 input points/map & 606 spaces, 83 orbits; target cosets preserved\\
-Lemma~\ref{l2:lem:degree} & All 887,857 affine and nonlinear planes, plus dependent factors & 237,568 quartic products; zero failures\\
+Lemma~\ref{l2:lem:degree} & All affine and nonlinear planes over the 83 symmetry representatives, plus dependent factors & 887,857 planes; 237,568 quartic products; zero failures\\
 Lemma~\ref{l2:lem:four} & All $k,R$ in its domain; 68 representatives & 17,629,184 pairs; zero failures\\
 Lemma~\ref{l2:lem:lastfactor} & All $k,R$ in its domain; 67 representatives & 70,254,592 pairs; zero failures\\
-Lemma~\ref{l2:lem:ideal} & All factor planes, affine and nonlinear; all quadratic representatives modulo $I$ & 887,857 planes; 270,385 quadratic quotient products; zero failures\\
+Lemma~\ref{l2:lem:ideal} & All affine and nonlinear planes over the 83 symmetry representatives; all quadratic representatives modulo $I$ & 887,857 planes; 270,385 quadratic quotient products; zero failures\\
 Lemma~\ref{l2:lem:rankext} & All 651 rank-two forms; all exterior multipliers & 2,604 rank tests; 616 full exterior image tests\\
 Lemma~\ref{l2:lem:coset} & All 11 needed inside-$U$ spaces, every first product and final product & 445,145 first planes; zero failures\\
 Proposition~\ref{l2:prop:onehigh} & All 606 initial spaces, all affine and nonlinear first products and final factors & 887,857 first planes, 740,610 output cosets; zero failures\\
@@ -1315,7 +1315,7 @@ With first-plane weights, the full search inspects 20,401,536 second-gate planes
 The independent five-gate SAT searches split by $\lambda=1,\ldots,5$ were checked with \texttt{drat-trim}. A separate 651-cube certificate was checked with the verified checker \texttt{cake\_lpr}~\cite{cert}. These searches use the exact-multiplicative-complexity approach of~\cite{soeken}. The certificate evidence is separate from the algebraic enumerations in the tables and from the written proof. The low-half multipliers on one, two, and three input bits have reported multiplicative complexities $1,3,6$.
 
 \section{Lean formalization}\label{sec:lean}
-The formalization is maintained at \url{https://github.com/bishara74/lowhalf-mul3}, using Lean~4.35 and Mathlib. Its current status reduces $\mathrm{MC}(M_3)=6$ to the cases $\lambda=1,2,3$. The normal form and the $\lambda=4,5$ cases are formalized. The formalized supporting results are the quadratic-span, support, cross-part, cross-part obstruction, derivative, and types lemmas: Lemmas~\ref{l4:lem:Qonly}, \ref{l4:lem:support}, \ref{l4:lem:cross}, \ref{l4:lem:noq2}, \ref{l4:lem:deriv}, and~\ref{l4:lem:types}, respectively. The completed formal proofs use neither \texttt{sorry} nor \texttt{native\_decide}.
+The formalization is maintained at \url{https://github.com/bishara74/lowhalf-mul3}, using Lean~4.35 and Mathlib. The normal form and the cases $\lambda=4,5$ are formalized; the case $\lambda=4$ is proved by a shorter route than Section~\ref{sec:lambda4}, through a strengthening of the derivative lemma to a one-dimensional contraction $\iota_e(Q)$. The general coset obstruction (Lemma~\ref{toolkit:coset}) is formalized for an abstract base space, and with it every case of $\lambda=3$ except the spaces $Q_3$ admitting no good direction. Thus $\mathrm{MC}(M_3)=6$ is currently proved in Lean from three remaining statements: that finite class of $\lambda=3$ configurations, and the cases $\lambda=2$ and $\lambda=1$. The formalized supporting results are the quadratic-span, support, cross-part, cross-part obstruction, derivative, and types lemmas: Lemmas~\ref{l4:lem:Qonly}, \ref{l4:lem:support}, \ref{l4:lem:cross}, \ref{l4:lem:noq2}, \ref{l4:lem:deriv}, and~\ref{l4:lem:types}, respectively. The completed formal proofs use neither \texttt{sorry} nor \texttt{native\_decide}.
 
 
 The remaining formal cases concern the proofs already presented in Sections~\ref{sec:lambda3}, \ref{sec:lambda2}, and~\ref{sec:lambda1}.

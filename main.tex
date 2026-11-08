@@ -6,6 +6,7 @@
 \usepackage{booktabs,array,tabularx,longtable}
 \usepackage[shortlabels]{enumitem}
 \usepackage{xcolor}
+\usepackage{etoolbox}
 \usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue!50!black]{hyperref}
 % Compatibility with pre-v4.25 longtable: upstream finite-shrink fix, gh/1907.
 % https://github.com/latex3/latex2e/issues/1907
@@ -34,14 +35,29 @@
 \newcommand{\dU}{d_U}
 \newcommand{\Dir}{E}
 \title{The multiplicative complexity of the three-bit low-half multiplier}
-% TODO: Confirm Bishara's surname and both authors' names and order.
-\author{ Alhodali Bshara and Gregory Morse}
+% FILL: Confirm both authors' publication names, order, affiliations, emails, and ORCID iDs.
+\newcommand{\FirstAuthorName}{[First author name]}
+\newcommand{\SecondAuthorName}{[Second author name]}
+\author{\FirstAuthorName\thanks{[First author affiliation, email, ORCID]}
+  \and \SecondAuthorName\thanks{[Second author affiliation, email, ORCID]}}
 \date{}
-\hypersetup{pdftitle={The multiplicative complexity of the three-bit low-half multiplier},pdfauthor={Bishara and Gregory Morse}}
+\hypersetup{pdftitle={The multiplicative complexity of the three-bit low-half multiplier},
+  pdfauthor={\FirstAuthorName\space and \SecondAuthorName}}
+% FILL: Replace the bracketed value with the 40-character commit at lowhalf-arxiv-v1.
+\newcommand{\ReleaseCommit}{[release commit hash]}
+% Remove the qualifier only after verifying the unconditional theorem at the tagged commit.
+\newcommand{\LeanReleaseStatus}{\emph{Final-release wording, pending verification.}
+  $\mathrm{MC}(M_3)=6$ is fully formalized in Lean~4.
+  The kernel-checked proof uses only the axioms \texttt{propext},
+  \texttt{Classical.choice} and \texttt{Quot.sound}.}
 \begin{document}
 \maketitle
 \begin{abstract}
-The multiplicative complexity of the three-bit low-half multiplier is six, a value already known from SAT certificates. Our contribution is a structural, enumeration-free lower-bound proof valid against unrestricted nonlinear reuse in Boolean XOR--AND circuits, together with a Lean formalization of its normal form and the four- and five-linear-gate cases. The remaining Lean cases are in progress. An explicit six-AND circuit supplies the upper bound. The lower bound combines derivatives, quadratic products, complementary minors, and extraction modulo a Boolean ideal; independent finite checks accompany the arguments.
+The multiplicative complexity of the three-bit low-half multiplier is six, a value already known from earlier SAT certificates of the second author. We give a structural, enumeration-free lower-bound proof valid against unrestricted nonlinear reuse in Boolean XOR--AND circuits. An explicit six-AND circuit supplies the upper bound. The lower bound combines derivatives, quadratic products, complementary minors, and extraction modulo a Boolean ideal. Independent finite checks accompany the arguments. \LeanReleaseStatus
+% BEGIN INTERIM ABSTRACT STATUS (replace the LeanReleaseStatus call with this text if needed).
+% Lean 4 checks the normal form, the upper bound, and the cases $\lambda=3,4,5$.
+% The two-linear-gate case is reduced to \texttt{TwoClaim}, and the one-linear-gate case is proved conditionally on that claim and shared propositions.
+% END INTERIM ABSTRACT STATUS
 \end{abstract}
 \setcounter{tocdepth}{1}
 \tableofcontents
@@ -58,7 +74,7 @@ The three-bit low-half multiplier has unrestricted multiplicative complexity
 
 An exact value distinguishes an optimal implementation from a merely small one. It measures the number of nonlinear operations required even when linear processing is free, and gives a concrete benchmark for circuit synthesis and lower-bound methods. The carry in $z_2$ makes this a vectorial problem with a quartic output; the degree bound alone does not yield the exact answer.
 
-Boyar, Peralta, and Pochuev~\cite{bpp} study multiplicative complexity over the Boolean basis $(\wedge,\oplus,1)$, and Boyar and Find~\cite{bf} treat vector-valued Boolean functions. Schnorr~\cite{schnorr} develops general multiplicative-complexity lower bounds. Morse~\cite{morse} supplies the unrestricted multiplication framework, while Soeken~\cite{soeken} develops SAT methods for determining exact multiplicative complexity. The value $\mathrm{MC}(M_3)=6$ was already known from SAT certificates checked by \texttt{drat-trim} and \texttt{cake\_lpr}~\cite{cert}. The contribution here is the structural, enumeration-free proof of the lower bound against unrestricted nonlinear reuse, together with the Lean formalization described in Appendix~\ref{sec:lean}. \c{C}al{\i}k, Turan, and Peralta~\cite{ctp} determine multiplicative complexity for small Boolean functions. Morse~\cite{morse} proves $\mathrm{MC}(\mathrm{Mul}_3)=6$ and $\mathrm{MC}(\mathrm{Mul}_4)=9$ for binary polynomial multiplication in the same unrestricted model; those full polynomial-product maps are distinct from the integer low-half map $M_3$ considered here.
+Boyar, Peralta, and Pochuev~\cite{bpp} study multiplicative complexity over the Boolean basis $(\wedge,\oplus,1)$, and Boyar and Find~\cite{bf} treat vector-valued Boolean functions. Schnorr~\cite{schnorr} develops general multiplicative-complexity lower bounds. Morse~\cite{morse} supplies the unrestricted multiplication framework, while Soeken~\cite{soeken} develops SAT methods for determining exact multiplicative complexity. The value $\mathrm{MC}(M_3)=6$ was already known from earlier SAT certificates of the second author~\cite{cert}, checked by \texttt{drat-trim} and \texttt{cake\_lpr}. The contribution here is the structural, enumeration-free proof of the lower bound against unrestricted nonlinear reuse, together with the Lean formalization described in Appendix~\ref{sec:lean}. \c{C}al{\i}k, Turan, and Peralta~\cite{ctp} determine multiplicative complexity for small Boolean functions. Morse~\cite{morse} proves $\mathrm{MC}(\mathrm{Mul}_3)=6$ and $\mathrm{MC}(\mathrm{Mul}_4)=9$ for binary polynomial multiplication in the same unrestricted model; those full polynomial-product maps are distinct from the integer low-half map $M_3$ considered here.
 
 \section{Preliminaries}\label{sec:preliminaries}
 
@@ -456,7 +472,7 @@ The targets $z_0,z_1$ must already lie in $V_4$: since $\deg z_2=4$, we have $z_
 Let $Q=\Span\{P_0,P_1,P_2,P_3\}$ with $\dim Q=4$, every $P_i$ of rank $2$, and $Z_1\in Q$. Then \eqref{l4:eq:star} has no solution. Consequently, no circuit with five AND gates, four of them linear, computes $(z_0,z_1,z_2)$.
 \end{theorem}
 
-We use the rank-two extension and cross-part case split below. This is the paper route; the Lean proof uses its derivative-based alternative (Lemma $8^{\prime}$ in the four-gate note), without this dimension-four reduction.
+We use the rank-two extension and cross-part case split below. The Lean proof uses a strengthening of Lemma~\ref{l4:lem:deriv} (Derivative) to spaces with a one-dimensional contraction $\iota_e(Q)$ (Appendix~\ref{sec:lean}).
 
 There are exactly $6\,583$ such subspaces; the table shows how they distribute over the cases of the proof.
 
@@ -517,6 +533,7 @@ Lemma~\ref{l4:lem:deriv} does not use that the gates are products of linear form
 \begin{remark}[Why restrictions cannot work]\label{l4:rem:restrictions}
 No argument by restriction can prove the lower bound: every affine restriction $b_2:=\ell(a_0,a_1,a_2,b_0,b_1)+c$ of the target is computable with five AND gates (all $64$ were checked). Lemma~\ref{l4:lem:deriv} avoids this because it differentiates along $a_2$ and $b_2$ instead of restricting them, so it still sees the whole function.
 \end{remark}
+% FILL: State how the 64 restricted circuits were obtained and give their artifact path at the release tag (S3).
 
 
 
@@ -737,7 +754,7 @@ By Lemma~\ref{l3:lem:P}, $(fh)_2=\pi+\rho$, with $\pi\in\Span\{f_2,h_2\}\subsete
 
 Use the resulting $m+1$ affine-input products as the new prefix. Its available space contains $V(Q)+\langle fh\rangle$. Keep every later factor as the same Boolean function as before, expressing it in the enlarged space. Induction through the tail preserves all its signals. A factor that was nonaffine remains nonaffine, since its function has not changed.
 \end{proof}
-For $m=2$ the replacement has three initial linear gates and the original two nonlinear tail gates. It is already in the form covered by Theorem~\ref{l3:thm:main}; independent quadratic directions have been supplied even in the degenerate cases. Consequently the branch $\deg g_2\le2$ is excluded by a human proof.
+For $m=2$ the replacement has three initial linear gates and the original two nonlinear tail gates. It is already in the form covered by Theorem~\ref{l3:thm:main}; independent quadratic directions have been supplied even in the degenerate cases. Consequently the branch $\deg g_2\le2$ is excluded by Theorem~\ref{l3:thm:main}.
 
 \begin{lemma}[Top degree]\label{l2:lem:degree}
 For $f,h\in V(Q)$ one has $\deg(fh)\le4$. If $\dim Q=2$ and $\deg(fh)=4$, then $\Span\{f_2,h_2\}=Q$ and $(fh)_4=P_0\wedge P$. If $Q=\langle P_0\rangle$, then $\deg(fh)\le3$.
@@ -1141,7 +1158,7 @@ The one-dimensional final extension therefore forces $z_1\in V_4$, since otherwi
 \end{proof}
 
 A relaxed four-gate circuit computes $(z_1,q_2)$ on the 48 points $a_0b_0=0$. An explicit witness was independently simulated. The proof above uses identities modulo $I$ only after the full-domain multiplier lemma has forced the multiplier to be one there; it does not rely on that false stronger relaxation.
-
+% FILL: Cite the explicit relaxed four-gate witness by its artifact path at the release tag (S2).
 
 \begin{proof}[Proof of Theorem~\ref{thm:MC}]
 The circuit in Section~\ref{sec:upper} uses six AND gates. If a circuit used at most five, appending redundant affine-input AND gates would give a five-gate circuit computing the same targets. Lemma~\ref{l4:lem:normal} puts it in one of the five cases excluded by Theorems~\ref{thm:lambda5}, \ref{l4:thm:main}, \ref{l3:thm:main}, \ref{l2:thm:main}, and~\ref{l1:thm:main}. Thus $\mathrm{MC}(M_3)\ge6$.
@@ -1151,18 +1168,18 @@ The circuit in Section~\ref{sec:upper} uses six AND gates. If a circuit used at 
 \section{Computational verification}\label{sec:verification}
 The tables collect the exhaustive checks and independent searches reported with the proofs. Counts distinguish factor planes, actual function spaces, output cosets, and symmetry orbits. Random checks are identified separately. These checks accompany the algebraic arguments; the written lower bound above does not depend on exhaustive circuit search.
 
-The artifacts are organized in the following directories of \href{https://github.com/bishara74/lowhalf-mul3}{the public repository}:
+The planned release tag is
+\href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1}{\texttt{lowhalf-arxiv-v1}}.
+The release commit is \texttt{\ReleaseCommit}.
+Its Software Heritage identifier is \texttt{swh:1:rev:\ReleaseCommit}.
 \begin{itemize}
-\item \href{https://github.com/bishara74/lowhalf-mul3/tree/main/verification/lambda3-checks}{\nolinkurl{verification/lambda3-checks}}
-\item
-\href{https://github.com/bishara74/lowhalf-mul3/tree/main/verification/lambda2-lambda1-checks}{\nolinkurl{verification/lambda2-lambda1-checks}}
-\item
-\href{https://github.com/bishara74/lowhalf-mul3/tree/main/verification/referee}{\nolinkurl{verification/referee}}
-\item
-\href{https://github.com/bishara74/lowhalf-mul3/tree/main/verification/certificates}{\nolinkurl{verification/certificates}}
+\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/lambda3-checks}{\nolinkurl{verification/lambda3-checks}} contains the three-linear-gate checks.
+\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/lambda2-lambda1-checks}{\nolinkurl{verification/lambda2-lambda1-checks}} contains the two- and one-linear-gate checks.
+\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/audit-v1}{\nolinkurl{verification/audit-v1}} and
+\href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/audit-v2}{\nolinkurl{verification/audit-v2}} contain the two internal pre-submission audits and their checks.
+\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/lean-support}{\nolinkurl{verification/lean-support}} contains checks supporting the Lean formalization.
+\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/certificates}{\nolinkurl{verification/certificates}} contains the SAT and LRAT certificate artifacts.
 \end{itemize}
-% TODO: Pin these verification artifacts to the exact public release commit before submission.
-The checks added for this revision separately test the expanded algebraic claims; their precise domains and results are recorded with the revision artifacts.
 
 \begin{lemma}[The 32 symmetries]\label{l2:lem:sym}
 Interchanging the two operands and independently making the substitutions
@@ -1313,26 +1330,134 @@ With first-plane weights, the full search inspects 20,401,536 second-gate planes
 
 \subsection{Independent certificate searches}
 The independent five-gate SAT searches split by $\lambda=1,\ldots,5$ were checked with \texttt{drat-trim}. A separate 651-cube certificate was checked with the verified checker \texttt{cake\_lpr}~\cite{cert}. These searches use the exact-multiplicative-complexity approach of~\cite{soeken}. The certificate evidence is separate from the algebraic enumerations in the tables and from the written proof. The low-half multipliers on one, two, and three input bits have reported multiplicative complexities $1,3,6$.
+% FILL: Cite the source establishing all three values, or identify the certificates supporting each value.
 
 \section{Lean formalization}\label{sec:lean}
-The formalization is maintained at \url{https://github.com/bishara74/lowhalf-mul3}, using Lean~4.35 and Mathlib. The normal form and the cases $\lambda=4,5$ are formalized; the case $\lambda=4$ is proved by a shorter route than Section~\ref{sec:lambda4}, through a strengthening of the derivative lemma to a one-dimensional contraction $\iota_e(Q)$. The general coset obstruction (Lemma~\ref{toolkit:coset}) is formalized for an abstract base space, and with it every case of $\lambda=3$ except the spaces $Q_3$ admitting no good direction. Thus $\mathrm{MC}(M_3)=6$ is currently proved in Lean from three remaining statements: that finite class of $\lambda=3$ configurations, and the cases $\lambda=2$ and $\lambda=1$. The formalized supporting results are the quadratic-span, support, cross-part, cross-part obstruction, derivative, and types lemmas: Lemmas~\ref{l4:lem:Qonly}, \ref{l4:lem:support}, \ref{l4:lem:cross}, \ref{l4:lem:noq2}, \ref{l4:lem:deriv}, and~\ref{l4:lem:types}, respectively. The completed formal proofs use neither \texttt{sorry} nor \texttt{native\_decide}.
+\LeanReleaseStatus
+The formalization uses Lean~4 \texttt{v4.35.0-rc3}, a release candidate, and
+Mathlib. Its source and axiom audit are in the
+\href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1}{tagged repository}.
+The formal coset lemma is stated for an abstract \texttt{CosetBase}.
+The space contains the affine functions, its derivatives along $a_2$ and $b_2$
+are constant, and $1,a_0,b_0$ lie in the radical of the 16-point carry pairing.
+The hypotheses of Lemma~\ref{toolkit:coset} give these conditions directly.
 
+% BEGIN INTERIM APPENDIX STATUS (replace the LeanReleaseStatus call with this text if needed).
+% At the inspected commit 035ba4e, Lean proves the normal form, the upper bound, and the cases $\lambda=3,4,5$.
+% The proof of $\lambda=2$ is conditional on \texttt{TwoClaim}.
+% The proof of $\lambda=1$ is conditional on \texttt{TwoClaim} and five shared propositions listed below.
+% The unconditional statement \texttt{mc\_lowMul3} is still a challenge statement with \texttt{sorry}.
+% END INTERIM APPENDIX STATUS
 
-The remaining formal cases concern the proofs already presented in Sections~\ref{sec:lambda3}, \ref{sec:lambda2}, and~\ref{sec:lambda1}.
+\subsection{Correspondence with the Lean source}
+The table uses the paper's source labels. Lean names are relative to
+\nolinkurl{UnrestrictedBooleanMul.LowHalfMul3}, with names from the
+\nolinkurl{LambdaOne} subnamespace shown without that prefix.
+The table distinguishes proof components, conditional reductions, and
+assumptions in the inspected source.
 
-\section*{Acknowledgements}
-AI tools were used to assist with drafting proofs, writing verification scripts and the Lean formalization; all results were checked by the authors.
-% TODO: Confirm acknowledgement wording with the authors.
+{\small
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt plus 1fil}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{.30\linewidth}
+  >{\raggedright\arraybackslash}p{\dimexpr.70\linewidth-2\tabcolsep\relax}@{}}
+\toprule
+Paper label & Lean declaration or coverage \\
+\midrule
+\endfirsthead
+\toprule
+Paper label & Lean declaration or coverage \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\nolinkurl{thm:MC} & \nolinkurl{mc_lowMul3} (challenge statement), \nolinkurl{mc_eq_six_of_twoClaim} (conditional assembly). \\
+\nolinkurl{sec:preliminaries}, \nolinkurl{sec:upper} & \nolinkurl{lowMul3_eval}, \nolinkurl{upper}. \\
+\nolinkurl{l4:lem:normal} & \nolinkurl{normal_form_five}. \\
+\nolinkurl{l4:lem:Qonly} & \nolinkurl{wireSpace_eq_V4}. \\
+\nolinkurl{l4:lem:support} & \nolinkurl{lemma3} (the two target forms). \\
+\nolinkurl{l4:lem:cross} & \nolinkurl{phi_eq_zero_iff} (kernel statement). \\
+\nolinkurl{l4:lem:planeU}, \nolinkurl{l4:prop:B} & Bypassed in the four-linear-gate proof. \\
+\nolinkurl{l4:lem:noq2}, \nolinkurl{l4:lem:types} & \nolinkurl{lemma6}, \nolinkurl{types}. \\
+\nolinkurl{thm:lambda5} & \nolinkurl{lambdaCase_five}. \\
+\nolinkurl{l4:lem:deriv}, \nolinkurl{l3:lem:deriv} & \nolinkurl{derivative_lemma_paper}, \nolinkurl{noPlace_of_goodDir} (killing-direction specialization for the variant). \\
+\nolinkurl{l3:lem:rad}, \nolinkurl{l3:lem:wt}, \nolinkurl{l3:lem:P} & Bypassed in the three-linear-gate proof. \\
+\nolinkurl{toolkit:coset} & \nolinkurl{coset_obstruction}, \nolinkurl{coset_z2_not_mem} (placement conclusions). \\
+\nolinkurl{l2:lem:ideal} & \nolinkurl{IdealExtract} (assumption). \\
+\nolinkurl{l2:lem:rankext} & \nolinkurl{Q2NotTwoWedges} (rank consequence, assumed). \\
+\nolinkurl{l4:thm:main}, \nolinkurl{l3:thm:L4} & \nolinkurl{starFree}, \nolinkurl{lambdaCase_four} (shorter route). \\
+\nolinkurl{l3:thm:main} & \nolinkurl{lambdaCase_three}. \\
+\nolinkurl{l3:lem:A} & \nolinkurl{noPlace_z1_bad} (shorter route for spaces without a good direction). \\
+\nolinkurl{l3:lem:D1} & Bypassed by the direction argument for Lemma~\ref{l3:lem:C}. \\
+\nolinkurl{l3:lem:C} & \nolinkurl{noPlace_of_goodDir}, \nolinkurl{noPlace_z2_of_uDir} (shorter routes). \\
+\nolinkurl{l3:lem:abs} & \nolinkurl{mem_V4_sup_singleton} (space identity). \\
+\nolinkurl{l3:prop:B} & \nolinkurl{noPlace_of_goodDir} and \nolinkurl{noPlace_z1_bad}, combined in \nolinkurl{lambdaCase_three_of} (shorter route). \\
+\nolinkurl{l3:lem:B3U}, \nolinkurl{l3:prop:B3} & \nolinkurl{phi_of_Z1_mem}, \nolinkurl{b3Claim}. \\
+\nolinkurl{l2:thm:main} & \nolinkurl{lambdaCase_two_of} (shorter, conditional reduction). \\
+\nolinkurl{l2:lem:replace} & \nolinkurl{quadratic_first_le} (wire-space inclusion for $m=1$). \\
+\nolinkurl{l2:lem:degree} & \nolinkurl{DegreeLE.mul} (degree bound), \nolinkurl{first_degree} (normalized first gate). \\
+\nolinkurl{l2:lem:lastfactor} & \nolinkurl{LastFactorLowIdeal} (shared modular assumption). \\
+\nolinkurl{l2:lem:coset}, \nolinkurl{l2:prop:onehigh} & \nolinkurl{oneHigh_of_phi} for $P\in\Lam(U)$, \nolinkurl{TwoClaim} (assumption) for $P\notin\Lam(U)$. \\
+\nolinkurl{l1:thm:main} & \nolinkurl{lambdaCase_one_of} (conditional proof). \\
+\nolinkurl{l1:lem:reduce}, \nolinkurl{l1:lem:cubic} & \nolinkurl{quadratic_first_le}, \nolinkurl{first_normal_form}, \nolinkurl{first_cubic_iff}. \\
+\nolinkurl{l1:lem:first} & \nolinkurl{no_z1_in_first} and the degree bound \nolinkurl{first_degree}. \\
+\nolinkurl{l2:lem:four} & Bypassed by the fiber argument in \nolinkurl{early_z1_feedback}. \\
+\nolinkurl{l1:lem:corecoset}, \nolinkurl{l1:prop:corebranch} & \nolinkurl{core_noNextZ2}, used in \nolinkurl{cubic_tail_contradiction}. \\
+\nolinkurl{l1:lem:earlycore} & \nolinkurl{early_z1_core}, with \nolinkurl{early_z1_feedback} (shorter route for feedback). \\
+\nolinkurl{l1:lem:ordinarypair} & \nolinkurl{ordinary_pair_noPlace} (shorter route). \\
+\nolinkurl{l1:lem:noncoremult}, \nolinkurl{l1:lem:noncore} & \nolinkurl{LastFactorLowIdeal} (assumption), \nolinkurl{noncore_noNextZ2} (conditional proof using \nolinkurl{FeedbackNormal} and \nolinkurl{FeedbackNoPlaceModLow}). \\
+\nolinkurl{l4:rem:rank2essential}, \nolinkurl{l4:rem:restrictions}, \nolinkurl{l2:lem:sym} & No standalone Lean declaration in the inspected source. \\
+\end{longtable}}
+
+\paragraph{Shorter proof routes.}
+For $\lambda=4$, the strengthened derivative lemma (Lemma $8^{\prime}$,
+\nolinkurl{starFree_of_goodDir}) treats contractions contained in a line spanned
+by a form distinct from $\delta_e$ and avoids the dimension-four reduction.
+For Lemma~\ref{l3:lem:A}, a $U$-direction forces a quadratic placement candidate
+to vanish on an affine hyperplane, and Lemma~W
+(\nolinkurl{pi2_wedge_of_vanish}) makes its quadratic part a wedge.
+For Lemma~\ref{l3:lem:C}, Lemma $8^{\prime}$ handles good directions, while a
+third difference on the hyperplane where the factor derivatives are constant
+detects the carry derivative in the remaining case.
+For Proposition~\ref{l3:prop:B}, the good direction survives adjoining $Z_1$,
+and Lemma $8^{\prime}$ excludes the last product on the enlarged space.
+For $\lambda=2$, the reduction splits on early availability of $z_1$ and uses
+a derivative or coset argument for early placement and the one-signal
+obstruction otherwise.
+For early feedback at $\lambda=1$, the free slopes on the four low-bit fibers
+cannot all lie in a two-point affine line together with the zero slope.
+For the ordinary-pair obstruction, two applications of the same Gram identity
+control the kernel pairing and the product parity on each slice, so the two
+slice parities cancel.
+
+\section*{Acknowledgements and AI disclosure}
+% FILL: Replace the bracketed model details and task descriptions with the actual provider, identifier, mode, and contributions.
+This work was developed with AI assistance in accordance with the ELTE Faculty of
+Informatics policy on the use of AI tools. [Model (provider, identifier, mode)] was
+used to [draft the written proofs of \ldots], [write the verification scripts in
+\texttt{verification/}], and [write Lean proofs of \ldots]. The internal pre-submission
+audits of the manuscript, including the audit reports and check scripts in
+\texttt{verification/}, were produced with Anthropic Claude Opus 5.5 in agent sessions
+run by the second author. Their findings were re-run and checked before being adopted.
+Every Lean statement is checked by the Lean kernel, and every count in
+Appendix~\ref{sec:verification} is reproduced by the scripts at the pinned commit.
+The authors reviewed all definitions, statements, proofs and text, and take full
+responsibility for the work. No AI system is an author.
 
 \begingroup\raggedright
 \begin{thebibliography}{9}
-\bibitem{ctp} \c{C}.~\c{C}al{\i}k, M.~S.\ Turan, R.~Peralta, \emph{The Multiplicative Complexity of 6-variable Boolean Functions}, Cryptography and Communications (2018), \url{https://doi.org/10.1007/s12095-018-0297-2}.
+\bibitem{ctp} \c{C}.~\c{C}al{\i}k, M.~S\"onmez Turan, R.~Peralta, \emph{The multiplicative complexity of 6-variable Boolean functions}, Cryptography and Communications \textbf{11}(1) (2019), 93--107 (online 2018). \url{https://doi.org/10.1007/s12095-018-0297-2}.
 \bibitem{bpp} J.~Boyar, R.~Peralta, D.~Pochuev, \emph{On the multiplicative complexity of Boolean functions over the basis $(\wedge,\oplus,1)$}, Theoretical Computer Science 235 (2000) 43--57.
-\bibitem{bf} J.~Boyar, M.~G.~Find, \emph{Multiplicative complexity of vector valued Boolean functions}, arXiv:1407.6169.
-\bibitem{schnorr} C.-P.~Schnorr, \emph{The multiplicative complexity of Boolean functions}, in: Applied Algebra, Algebraic Algorithms and Error-Correcting Codes (AAECC-6), LNCS 357, Springer, 1989.
+\bibitem{bf} J.~Boyar, M.~G.~Find, \emph{Multiplicative complexity of vector valued Boolean functions}, Theoretical Computer Science \textbf{720} (2018), 36--46. \url{https://doi.org/10.1016/j.tcs.2018.02.023}. Preprint: \href{https://arxiv.org/abs/1407.6169}{arXiv:1407.6169}.
+\bibitem{schnorr} C.-P.~Schnorr, \emph{The multiplicative complexity of Boolean functions}, in: Applied Algebra, Algebraic Algorithms and Error-Correcting Codes (AAECC-6), LNCS 357, Springer, 1989, pp.~45--58. \url{https://doi.org/10.1007/3-540-51083-4_47}.
 \bibitem{morse} G.~Morse, \emph{Unrestricted Boolean Multiplicative Complexity of Four-Term Binary Polynomial Multiplication: Rational Places, Hasse Jets, and the Failure of Nonlinear Feedback}, arXiv:2608.30238.
 \bibitem{soeken} M.~Soeken, \emph{Determining the multiplicative complexity of Boolean functions using SAT}, arXiv:2005.01778.
-\bibitem{cert} G.~Morse, \emph{LRAT certificate for $\mathrm{MC}(3\text{-bit multiplication mod }8)=6$}, archived certificate package in the repository verification directory.
+\bibitem{cert} G.~Morse, \emph{LRAT certificate for $\mathrm{MC}(3\text{-bit multiplication mod }8)=6$}.
+Repository: \url{https://github.com/bishara74/lowhalf-mul3}.
+Path: \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/certificates}{\nolinkurl{verification/certificates}},
+tag \texttt{lowhalf-arxiv-v1}, commit \texttt{\ReleaseCommit}.
+Archive: \href{https://github.com/bishara74/lowhalf-mul3/blob/lowhalf-arxiv-v1/verification/certificates/mc3mod8_certificate_small.tar.zst}{\nolinkurl{mc3mod8_certificate_small.tar.zst}}.
+SHA-256 manifest: \href{https://github.com/bishara74/lowhalf-mul3/blob/lowhalf-arxiv-v1/verification/certificates/mc3mod8_certificate_ARCHIVE.json}{\nolinkurl{mc3mod8_certificate_ARCHIVE.json}}.
 
 \bibitem{MS} F.~J.~MacWilliams and N.~J.~A.~Sloane, \emph{The Theory of Error-Correcting Codes}, North-Holland, 1977, Ch.~13 and~15.
 \end{thebibliography}

@@ -1,3 +1,5 @@
+% This source has no EPS figures.
+\newcommand{\DoNotLoadEpstopdf}{}
 \documentclass[11pt,a4paper]{article}
 \usepackage[margin=2.6cm]{geometry}
 \usepackage[T1]{fontenc}
@@ -37,7 +39,7 @@
 \title{The multiplicative complexity of the three-bit low-half multiplier}
 \newcommand{\FirstAuthorName}{Bshara Alhodali}
 \newcommand{\SecondAuthorName}{Gregory Morse}
-\author{\FirstAuthorName\thanks{Faculty of Informatics, E\"otv\"os Lor\'and University, Budapest, Hungary.
+\author{\FirstAuthorName\thanks{\raggedright Faculty of Informatics, E\"otv\"os Lor\'and University, Budapest, Hungary.
     \href{mailto:iyzrw6@inf.elte.hu}{\texttt{iyzrw6@inf.elte.hu}},
     \href{mailto:hodalibishara10@gmail.com}{\texttt{hodalibishara10@gmail.com}}.
     ORCID: \href{https://orcid.org/0009-0003-4870-8745}{0009-0003-4870-8745}.}
@@ -48,17 +50,36 @@
 \date{}
 \hypersetup{pdftitle={The multiplicative complexity of the three-bit low-half multiplier},
   pdfauthor={\FirstAuthorName\space and \SecondAuthorName}}
-\newcommand{\ReleaseCommit}{b6c00ef8d94ff578585b428270df1af271a96bd6}
+\newcommand{\ReleaseCommit}{3770baefb67b5afe1715e22283aa9aed606d096b}
 \newcommand{\LeanReleaseStatus}{$\mathrm{MC}(M_3)=6$ is fully formalized in Lean~4.
   The kernel-checked proof uses only the axioms \texttt{propext},
   \texttt{Classical.choice} and \texttt{Quot.sound}.}
+\iffalse
+ARXIV-METADATA-BEGIN
+Title: The multiplicative complexity of the three-bit low-half multiplier
+Authors: Bshara Alhodali (E\"otv\"os Lor\'and University), Gregory Morse (E\"otv\"os Lor\'and University)
+Abstract: We prove that the multiplicative complexity of the three-bit low-half multiplier is six, giving a structural, enumeration-free lower-bound proof valid against unrestricted nonlinear reuse in Boolean XOR-AND circuits. The value was previously established by SAT searches of the second author. An explicit six-AND circuit supplies the upper bound. The lower bound combines derivatives, quadratic products, complementary minors, and extraction modulo a Boolean ideal. Independent finite checks accompany the arguments. $\mathrm{MC}(M_3)=6$ is fully formalized in Lean 4. The kernel-checked proof uses only the axioms propext, Classical.choice and Quot.sound.
+Comments: 21 pages, 1 table. Lean formalization and verification artifacts: https://github.com/bishara74/lowhalf-mul3
+Subjects: Computational Complexity (cs.CC); Combinatorics (math.CO); Logic in Computer Science (cs.LO)
+MSC classes: 68Q06 (Primary) 06E30, 68Q60 (Secondary)
+ACM classes: F.1.3
+Report number:
+Journal reference:
+DOI:
+License: CC BY 4.0
+Submitter is author: Bshara Alhodali (author)
+External artifacts: GitHub https://github.com/bishara74/lowhalf-mul3; release/tag lowhalf-arxiv-v2; commit 3770baefb67b5afe1715e22283aa9aed606d096b; local release pin
+AI disclosure: This work was developed with AI assistance in accordance with the ELTE Faculty of Informatics policy on the use of AI tools. Anthropic Claude, in the Claude Science agent environment, was used with Claude Opus~5.5 (high effort) for complex tasks and Claude Sonnet~5.5 (medium effort) for simpler ones to draft the written proofs of the four- and three-linear-gate cases, to write verification scripts in \texttt{verification/}, and to write most of the Lean formalization. OpenAI Codex with GPT-6.1 Sol (high effort) was used to draft the written proofs of the two- and one-linear-gate cases, to write further verification scripts, to merge and revise the manuscript, to produce the audits in \texttt{verification/audit-v1} and \texttt{verification/audit-v2}, to write the remaining Lean proofs (the one-linear-gate case and the final shared lemmas), to independently audit the manuscript and write its finite checks, to revise the manuscript following that audit, and to conduct the arXiv submission audit. Anthropic Claude Opus~5.5 (medium effort) was used in a separate chat for planning, proof review, independent spot checks and editing. The second author used Anthropic Claude Opus~5.5 (high effort) in agent sessions for refereeing and pre-submission reviews. Their findings were re-run and checked before being adopted. The Lean kernel checks the formal proof at the pinned commit. The authors reviewed all definitions, statements, proofs and text, and take full responsibility for the work. No AI system is an author.
+ARXIV-METADATA-END
+\fi
 \begin{document}
 \maketitle
 \begin{abstract}
-The multiplicative complexity of the three-bit low-half multiplier is six, a value already known from earlier SAT certificates of the second author. We give a structural, enumeration-free lower-bound proof valid against unrestricted nonlinear reuse in Boolean XOR--AND circuits. An explicit six-AND circuit supplies the upper bound. The lower bound combines derivatives, quadratic products, complementary minors, and extraction modulo a Boolean ideal. Independent finite checks accompany the arguments. \LeanReleaseStatus
+We prove that the multiplicative complexity of the three-bit low-half multiplier is six, giving a structural, enumeration-free lower-bound proof valid against unrestricted nonlinear reuse in Boolean XOR--AND circuits. The value was previously established by SAT searches of the second author. An explicit six-AND circuit supplies the upper bound. The lower bound combines derivatives, quadratic products, complementary minors, and extraction modulo a Boolean ideal. Independent finite checks accompany the arguments. \LeanReleaseStatus
 \end{abstract}
 \setcounter{tocdepth}{1}
 \tableofcontents
+\clearpage
 
 \section{Introduction}\label{sec:introduction}
 Let $a=a_0+2a_1+4a_2$ and $b=b_0+2b_1+4b_2$ be three-bit integers. We study the vectorial Boolean function $M_3(a,b)=(z_0,z_1,z_2)$ specified by $ab\bmod8=z_0+2z_1+4z_2$. Its multiplicative complexity counts two-input AND gates, allowing arbitrary affine combinations of inputs and previously computed gates at no cost. In particular, the factors of an AND gate may contain earlier AND outputs. We use the unrestricted model of Morse~\cite{morse}.
@@ -72,7 +93,7 @@ The three-bit low-half multiplier has unrestricted multiplicative complexity
 
 An exact value distinguishes an optimal implementation from a merely small one. It measures the number of nonlinear operations required even when linear processing is free, and gives a concrete benchmark for circuit synthesis and lower-bound methods. The carry in $z_2$ makes this a vectorial problem with a quartic output; the degree bound alone does not yield the exact answer.
 
-Boyar, Peralta, and Pochuev~\cite{bpp} study multiplicative complexity over the Boolean basis $(\wedge,\oplus,1)$, and Boyar and Find~\cite{bf} treat vector-valued Boolean functions. Schnorr~\cite{schnorr} develops general multiplicative-complexity lower bounds. Morse~\cite{morse} supplies the unrestricted multiplication framework, while Soeken~\cite{soeken} develops SAT methods for determining exact multiplicative complexity. The value $\mathrm{MC}(M_3)=6$ was already known from earlier SAT certificates of the second author~\cite{cert}, checked by \texttt{drat-trim} and \texttt{cake\_lpr}. Such a certificate can be checked mechanically, but does not by itself give a short structural proof, which leaves the following question.
+Boyar, Peralta, and Pochuev~\cite{bpp} study multiplicative complexity over the Boolean basis $(\wedge,\oplus,1)$, and Boyar and Find~\cite{bf} treat vector-valued Boolean functions. Mirwald and Schnorr~\cite{mirwald-schnorr} show that the multiplicative complexity of a quadratic Boolean form is half the rank of the alternating matrix obtained by adding its coefficient matrix to its transpose over $\F$. Morse~\cite{morse} supplies the unrestricted multiplication framework, while Soeken~\cite{soeken} develops SAT methods for determining exact multiplicative complexity. The second author's earlier SAT searches established $\mathrm{MC}(M_3)=6$ by ruling out five AND gates. The accompanying release documents a separate 651-cube LRAT certificate~\cite{cert}, with replayable proofs for zero through four gates and the five-gate cube cover. This computational evidence motivates the following question.
 
 \begin{question}\label{q:structural}
 Is there a structural proof of the lower bound $\mathrm{MC}(M_3)\ge6$, one that a reader can verify by hand and that uses no enumeration of circuits and no SAT solving?
@@ -86,7 +107,7 @@ Boolean functions on $\F^6$ are identified with their algebraic normal forms in 
 \[
   g_i=L_iR_i,\qquad L_i,R_i\in V_i:=\Aff+\Span\{g_0,\dots,g_{i-1}\},
 \]
-and it computes a set of targets if all of them lie in $V_k$. This is the unrestricted model of~\cite{morse}; see~\cite{bpp,bf,schnorr} for background on multiplicative complexity. For any Boolean function $f$, let $\pi_d(f)$ denote its degree-$d$ ANF part. If $\deg f\le2$, write $f=f_0+f_1+f_2$ with $f_d=\pi_d(f)$. Squarefree quadratic monomials are identified with 2-forms, $x_ix_j\leftrightarrow x_i\wedge x_j$.
+and it computes a set of targets if all of them lie in $V_k$. This is the unrestricted model of~\cite{morse}. Boyar, Peralta, and Pochuev~\cite{bpp} define multiplicative complexity for sets of Boolean functions by counting the AND gates needed to compute them simultaneously. For any Boolean function $f$, let $\pi_d(f)$ denote its degree-$d$ ANF part. If $\deg f\le2$, write $f=f_0+f_1+f_2$ with $f_d=\pi_d(f)$. Squarefree quadratic monomials are identified with 2-forms, $x_ix_j\leftrightarrow x_i\wedge x_j$.
 
 \paragraph{Targets}
 With inputs $a_0,a_1,a_2,b_0,b_1,b_2$ (least significant bit first),
@@ -754,29 +775,31 @@ The circuit in Section~\ref{sec:upper} uses six AND gates. If a circuit used at 
 
 \appendix
 \section{Computational verification}\label{sec:verification}
-The independent Python checks accompanying this revision test the local Boolean identities and finite parameter choices used in the written proofs. Each check includes a positive control. The release also contains the earlier exhaustive searches and the independent certificates.
+The independent Python checks accompanying this revision test the local Boolean identities and finite parameter choices used in the written proofs. Each check includes a positive control. The Python checks are regression-only. The earlier exhaustive searches, independent certificates, and Lean formalization are supporting evidence. The written proof is self-contained.
 
+The public repository is \url{https://github.com/bishara74/lowhalf-mul3}.
 The release tag is
-\href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1}{\texttt{lowhalf-arxiv-v1}}.
-The release commit and its Software Heritage identifier are
-\begin{center}\small\texttt{\ReleaseCommit}\\ \texttt{swh:1:rev:\ReleaseCommit}\end{center}
+\href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v2}{\texttt{lowhalf-arxiv-v2}}.
+The release commit is
+\begin{center}\small\texttt{\ReleaseCommit}\end{center}
 \begin{itemize}
-\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/lambda3-checks}{\nolinkurl{verification/lambda3-checks}} contains the three-linear-gate checks.
-\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/lambda2-lambda1-checks}{\nolinkurl{verification/lambda2-lambda1-checks}} contains the two- and one-linear-gate checks.
-\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/audit-v1}{\nolinkurl{verification/audit-v1}} and
-\href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/audit-v2}{\nolinkurl{verification/audit-v2}} contain the two internal pre-submission audits and their checks.
-\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/lean-support}{\nolinkurl{verification/lean-support}} contains checks supporting the Lean formalization.
-\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/certificates}{\nolinkurl{verification/certificates}} contains the SAT and LRAT certificate artifacts.
+\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v2/verification/lambda3-checks}{\nolinkurl{verification/lambda3-checks}} contains the three-linear-gate checks.
+\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v2/verification/lambda2-lambda1-checks}{\nolinkurl{verification/lambda2-lambda1-checks}} contains the two- and one-linear-gate checks.
+\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v2/verification/audit-v1}{\nolinkurl{verification/audit-v1}},
+\href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v2/verification/audit-v2}{\nolinkurl{verification/audit-v2}}, and
+\href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v2/verification/audit-v3}{\nolinkurl{verification/audit-v3}} contain the three pre-submission audits and their checks.
+\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v2/verification/lean-support}{\nolinkurl{verification/lean-support}} contains checks supporting the Lean formalization.
+\item \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v2/verification/certificates}{\nolinkurl{verification/certificates}} contains the SAT and LRAT certificate artifacts.
 \end{itemize}
 
 \subsection{Independent certificate searches}
-The independent five-gate SAT searches split by $\lambda=1,\ldots,5$ were checked with \texttt{drat-trim}. A separate 651-cube certificate was checked with the verified checker \texttt{cake\_lpr}~\cite{cert}. These searches use the exact-multiplicative-complexity approach of~\cite{soeken}. The certificate evidence is separate from the independent Python checks and from the written proof. The low-half multipliers on one, two, and three input bits have multiplicative complexities $1,3,6$. The value $6$ is Theorem~\ref{thm:MC}; the values $1$ and $3$ are established in \texttt{verification/small-sizes/} by explicit circuits and exhaustive searches showing that one gate fewer is impossible.
+The second author's earlier SAT searches ruled out five AND gates. The retained case-split CNFs and run logs document the search from October 2026. The accompanying release documents a separate 651-cube LRAT certificate~\cite{cert} based on an exact-multiplicative-complexity encoding of the kind described by Soeken~\cite{soeken}. Readers can replay the archived CNFs and LRAT proofs for $k=0,\ldots,4$ and \texttt{cover5} with \texttt{cake\_lpr}. The archive also supplies \texttt{cubes.txt}, the manifest and the generation and checker logs. The 651 per-cube proof files are absent from the archive. The \href{https://github.com/bishara74/lowhalf-mul3/blob/lowhalf-arxiv-v2/verification/certificates/REGENERATE.md}{regeneration instructions} give the commands to reconstruct and check each of them. The low-half multipliers on one, two, and three input bits have multiplicative complexities $1,3,6$. The value $6$ is Theorem~\ref{thm:MC}; the values $1$ and $3$ are established in \texttt{verification/small-sizes/} by explicit circuits and exhaustive searches showing that one gate fewer is impossible.
 
 \section{Lean formalization}\label{sec:lean}
-\LeanReleaseStatus
+\LeanReleaseStatus{}
 The formalization uses Lean~4 \texttt{v4.35.0-rc3}, a release candidate, and
 Mathlib. Its source and axiom audit are in the
-\href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1}{tagged repository}.
+\href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v2}{tagged repository}.
 The formal coset lemma is stated for an abstract \texttt{CosetBase}.
 The space contains the affine functions, its derivatives along $a_2$ and $b_2$
 are constant, and $1,a_0,b_0$ lie in the radical of the 16-point carry pairing.
@@ -864,40 +887,25 @@ Paper label & Lean declaration & Route \\
 This work was developed with AI assistance in accordance with the ELTE Faculty of
 Informatics policy on the use of AI tools. Anthropic Claude, in the Claude Science
 agent environment, was used with Claude Opus~5.5 (high effort) for complex tasks and
-Claude Sonnet~5.5 (medium effort) for simpler ones: to draft the written proofs of the
+Claude Sonnet~5.5 (medium effort) for simpler ones to draft the written proofs of the
 four- and three-linear-gate cases, to write verification scripts in
 \texttt{verification/}, and to write most of the Lean formalization. OpenAI Codex with
 GPT-6.1 Sol (high effort) was used to draft the written proofs of the two- and
 one-linear-gate cases, to write further verification scripts, to merge and revise the
-manuscript, to produce the internal audits in \texttt{verification/audit-v1} and
-\texttt{verification/audit-v2}, and to write the remaining Lean proofs (the
-one-linear-gate case and the final shared lemmas). Anthropic Claude (Claude Opus~5.5) was
-used in a separate chat for planning, proof review, independent spot checks and
-editing. Further pre-submission reviews of the manuscript were produced with Anthropic
-Claude Opus~5.5 in agent sessions run by the second author. Their findings were re-run and checked before being adopted.
-The Lean kernel checks the formal proof at the pinned commit. Codex assisted with this revision of the manuscript and its independent Python checks.
-The authors reviewed all definitions, statements, proofs and text, and take full
-responsibility for the work. No AI system is an author.
+manuscript, to produce the audits in \texttt{verification/audit-v1} and
+\texttt{verification/audit-v2}, to write the remaining Lean proofs (the
+one-linear-gate case and the final shared lemmas), to independently audit the
+manuscript and write its finite checks, to revise the manuscript following that audit,
+and to conduct the arXiv submission audit. Anthropic Claude Opus~5.5 (medium effort)
+was used in a separate chat for planning, proof review, independent spot checks and
+editing. The second author used Anthropic Claude Opus~5.5 (high effort) in agent
+sessions for refereeing and pre-submission reviews. Their findings were re-run and
+checked before being adopted. The Lean kernel checks the formal proof at the pinned
+commit. The authors reviewed all definitions, statements, proofs and text, and take
+full responsibility for the work. No AI system is an author.
 
 \begingroup\raggedright
-\begin{thebibliography}{9}
-\bibitem{ctp} \c{C}.~\c{C}al{\i}k, M.~S\"onmez Turan, R.~Peralta, \emph{The multiplicative complexity of 6-variable Boolean functions}, Cryptography and Communications \textbf{11}(1) (2019), 93--107 (online 2018). \url{https://doi.org/10.1007/s12095-018-0297-2}.
-\bibitem{bpp} J.~Boyar, R.~Peralta, D.~Pochuev, \emph{On the multiplicative complexity of Boolean functions over the basis $(\wedge,\oplus,1)$}, Theoretical Computer Science 235 (2000) 43--57.
-\bibitem{bf} J.~Boyar, M.~G.~Find, \emph{Multiplicative complexity of vector valued Boolean functions}, Theoretical Computer Science \textbf{720} (2018), 36--46. \url{https://doi.org/10.1016/j.tcs.2018.02.023}. Preprint: \href{https://arxiv.org/abs/1407.6169}{arXiv:1407.6169}.
-\bibitem{schnorr} C.-P.~Schnorr, \emph{The multiplicative complexity of Boolean functions}, in: Applied Algebra, Algebraic Algorithms and Error-Correcting Codes (AAECC-6), LNCS 357, Springer, 1989, pp.~45--58. \url{https://doi.org/10.1007/3-540-51083-4_47}.
-\bibitem{morse} G.~Morse, \emph{Unrestricted Boolean Multiplicative Complexity of Four-Term Binary Polynomial Multiplication: Rational Places, Hasse Jets, and the Failure of Nonlinear Feedback}, arXiv:2608.30238.
-\bibitem{soeken} M.~Soeken, \emph{Determining the multiplicative complexity of Boolean functions using SAT}, arXiv:2005.01778.
-\bibitem{cert} G.~Morse, \emph{LRAT certificate for $\mathrm{MC}(3\text{-bit multiplication mod }8)=6$}.
-Repository: \url{https://github.com/bishara74/lowhalf-mul3}.
-Path: \href{https://github.com/bishara74/lowhalf-mul3/tree/lowhalf-arxiv-v1/verification/certificates}{\nolinkurl{verification/certificates}},
-tag \texttt{lowhalf-arxiv-v1}, commit \texttt{\ReleaseCommit}.
-Archive: \href{https://github.com/bishara74/lowhalf-mul3/blob/lowhalf-arxiv-v1/verification/certificates/mc3mod8_certificate_small.tar.zst}{\nolinkurl{mc3mod8_certificate_small.tar.zst}}.
-SHA-256 manifest: \href{https://github.com/bishara74/lowhalf-mul3/blob/lowhalf-arxiv-v1/verification/certificates/mc3mod8_certificate_ARCHIVE.json}{\nolinkurl{mc3mod8_certificate_ARCHIVE.json}}.
-
-\bibitem{palomar} Palomar Registry, \emph{PALOMAR-2026-11-09-000020}.
-\url{https://palomar-registry.org/entry?id=PALOMAR-2026-11-09-000020}.
-
-\bibitem{MS} F.~J.~MacWilliams and N.~J.~A.~Sloane, \emph{The Theory of Error-Correcting Codes}, North-Holland, 1977, Ch.~13 and~15.
-\end{thebibliography}
+\bibliographystyle{unsrt}
+\bibliography{references}
 \endgroup
 \end{document}

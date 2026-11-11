@@ -61,14 +61,14 @@ Authors: Bshara Alhodali (E\"otv\"os Lor\'and University), Gregory Morse (E\"otv
 Abstract: We prove that the multiplicative complexity of the three-bit low-half multiplier is six, giving a structural, enumeration-free lower-bound proof valid against unrestricted nonlinear reuse in Boolean XOR-AND circuits. The value was previously established by SAT searches of the second author. An explicit six-AND circuit supplies the upper bound. The lower bound combines derivatives, quadratic products, complementary minors, and extraction modulo a Boolean ideal. Independent finite checks accompany the arguments. $\mathrm{MC}(M_3)=6$ is fully formalized in Lean 4. The kernel-checked proof uses only the axioms propext, Classical.choice and Quot.sound.
 Comments: 21 pages, 1 table. Lean formalization and verification artifacts: https://github.com/bishara74/lowhalf-mul3
 Subjects: Computational Complexity (cs.CC); Combinatorics (math.CO); Logic in Computer Science (cs.LO)
-MSC classes: 68Q06 (Primary) 06E30, 68Q60 (Secondary)
+MSC classes: 68Q06 (Primary), 68Q17, 94D10 (Secondary)
 ACM classes: F.1.3
 Report number:
 Journal reference:
 DOI:
 License: CC BY 4.0
 Submitter is author: Bshara Alhodali (author)
-External artifacts: GitHub https://github.com/bishara74/lowhalf-mul3; release/tag lowhalf-arxiv-v2; commit 3770baefb67b5afe1715e22283aa9aed606d096b; local release pin
+External artifacts: GitHub https://github.com/bishara74/lowhalf-mul3; release/tag lowhalf-arxiv-v2; commit 3770baefb67b5afe1715e22283aa9aed606d096b
 AI disclosure: This work was developed with AI assistance in accordance with the ELTE Faculty of Informatics policy on the use of AI tools. Anthropic Claude, in the Claude Science agent environment, was used with Claude Opus~5.5 (high effort) for complex tasks and Claude Sonnet~5.5 (medium effort) for simpler ones to draft the written proofs of the four- and three-linear-gate cases, to write verification scripts in \texttt{verification/}, and to write most of the Lean formalization. OpenAI Codex with GPT-6.1 Sol (high effort) was used to draft the written proofs of the two- and one-linear-gate cases, to write further verification scripts, to merge and revise the manuscript, to produce the audits in \texttt{verification/audit-v1} and \texttt{verification/audit-v2}, to write the remaining Lean proofs (the one-linear-gate case and the final shared lemmas), to independently audit the manuscript and write its finite checks, to revise the manuscript following that audit, and to conduct the arXiv submission audit. Anthropic Claude Opus~5.5 (medium effort) was used in a separate chat for planning, proof review, independent spot checks and editing. The second author used Anthropic Claude Opus~5.5 (high effort) in agent sessions for refereeing and pre-submission reviews. Their findings were re-run and checked before being adopted. The Lean kernel checks the formal proof at the pinned commit. The authors reviewed all definitions, statements, proofs and text, and take full responsibility for the work. No AI system is an author.
 ARXIV-METADATA-END
 \fi
@@ -259,7 +259,7 @@ If each generator of $Q$ has cross part zero or $\Phi(a\wedge b)$ for fixed line
 By Lemma~\ref{l4:lem:noq2}, $\Phi(a\wedge b)\ne\Phi(q_2)$, so for at least one of $e=e_{a_2},e_{b_2}$ the contraction $\ell=\iota_e(a\wedge b)$ differs from $\delta_e$. By linearity every contraction of $Q$ along $e$ is in $\langle\ell\rangle$.
 \end{proof}
 
-\begin{lemma}[Lemma $8'$]\label{l4:lem:deriv}
+\begin{lemma}[Derivative lemma]\label{l4:lem:deriv}
 If $Q$ has a good direction, there are no $f,h\in V(Q)$ with $fh+z_2\in V(Q)$.
 \end{lemma}
 \begin{proof}
@@ -564,14 +564,14 @@ If the types differ and neither is full, again choose nonzero $m$ killing $r_1$,
 
 Here is the common hyperplane argument for $z_1$. Suppose $\iota_e Q\subseteq\langle\ell\rangle$ but $\iota_e Z_1\notin\langle\ell\rangle$. If $fh+z_1\in V(Q)$ with $f,h\in V(Q)$, normalize $D_e f$ to a constant as in Lemma~\ref{l4:lem:deriv}. Its proof applies with $A=D_e(fh)$, whose linear part is outside $\langle\ell\rangle$ by the quadratic derivative formula. The modified product is still quadratic and equals either $fA$ or $Ah$. It vanishes on the hyperplane $A=0$. Lemma~\ref{toolkit:w} therefore gives a wedge in $Z_1+Q$.
 
-\begin{lemma}[A]\label{l3:lem:A}
+\begin{lemma}[Obstruction to placing $z_1$]\label{l3:lem:A}
 If $Q_3$ has no good direction, no $f,h\in V_3$ satisfy $fh+z_1\in V_3$.
 \end{lemma}
 \begin{proof}
 A $U$-direction exists by Lemma~\ref{l3:lem:udir}. Then $\iota_e Z_1=e_{b_1}a_0+e_{a_1}b_0$ is nonzero and has no external coefficient, so it is outside $\langle\ell\rangle$. The hyperplane argument gives a wedge $P_3\in Z_1+Q_3$. Lemma~\ref{l4:lem:goodspan} gives a good direction for $Q_3+\langle P_3\rangle$ and hence for $Q_3$, a contradiction.
 \end{proof}
 
-\begin{lemma}[C along a $U$-direction]\label{l3:lem:third}
+\begin{lemma}[Third difference along a $U$-direction]\label{l3:lem:third}
 If $Q$ has a $U$-direction, then for each $\varepsilon\in\F$ no $f,h\in V(Q)$ satisfy $fh+z_2+\varepsilon z_1\in V(Q)$.
 \end{lemma}
 \begin{proof}
@@ -586,14 +586,14 @@ a_0b_0(e_{a_1}b_1+e_{b_1}a_1).
 All other terms have degree at most two, by expansion of $D_ez_2$ with $e_{a_0}=e_{b_0}=0$. If $e_{a_1}=1$, take the cube at zero on $u_{a_0},u_{b_0},u_{b_1}$, on which the third difference of the displayed cubic is one. Otherwise $e_{b_1}=1$ and the cube on $u_{a_0},u_{a_1},u_{b_0}$ gives one. This contradicts the right side. Lean checks the two target cube sums in \nolinkurl{T3_Dz2_a} and \nolinkurl{T3_Dz2_b}.
 \end{proof}
 
-\begin{lemma}[C]\label{l3:lem:C}
+\begin{lemma}[Obstruction to placing $z_2$ or $z_2+z_1$]\label{l3:lem:C}
 For $\varepsilon\in\F$, no $f,h\in V_3$ satisfy $fh+z_2+\varepsilon z_1\in V_3$.
 \end{lemma}
 \begin{proof}
 If $Q_3$ has a good direction, adjoining $Z_1$ preserves it, and the asserted placement would give $fh+z_2\in V(Q_3+\langle Z_1\rangle)$, contrary to Lemma~\ref{l4:lem:deriv}. Otherwise use Lemmas~\ref{l3:lem:udir} and~\ref{l3:lem:third}.
 \end{proof}
 
-\begin{proposition}[B]\label{l3:prop:B}
+\begin{proposition}[Last gate after placement of $z_1$]\label{l3:prop:B}
 If $Z_1\notin Q_3$ and $g_3+z_1\in V_3$, then $z_2\notin V_4+\langle FH\rangle$ for $F,H\in V_4$.
 \end{proposition}
 \begin{proof}
@@ -635,6 +635,7 @@ For $f,h\in V(S)$, one has $z_2\notin V(S)+\langle fh\rangle$.
 The generators of $Q$ have at most one distinct nonzero cross part. Lemma~\ref{toolkit:common} gives a good direction, which survives adjoining $Z_1$. Degree excludes $z_2\in V(S)$ and Lemma~\ref{l4:lem:deriv} excludes $fh+z_2\in V(S)$.
 \end{proof}
 
+\clearpage
 \begin{lemma}[Two ordinary products on a cube]\label{l2:lem:cube}
 If $\Phi(P)\ne0$, then $FH+fh+z_2\notin V(S)$ for all $F,H,f,h\in V(S)$.
 \end{lemma}
@@ -806,9 +807,12 @@ are constant, and $1,a_0,b_0$ lie in the radical of the 16-point carry pairing.
 The hypotheses of Lemma~\ref{toolkit:coset} give these conditions directly.
 The statement \nolinkurl{mc_lowMul3} in the self-contained challenge module
 \nolinkurl{LowHalfMul3Challenge} is proved in \nolinkurl{LowHalfMul3Solution}.
-The theorem is registered on the Palomar registry as PALOMAR-2026-11-09-000020
-(\url{https://palomar-registry.org/entry?id=PALOMAR-2026-11-09-000020})~\cite{palomar}.
-The registered run builds the Challenge and Solution modules and runs
+The Palomar registration PALOMAR-2026-11-09-000020 (v1)~\cite{palomar}
+verified commit \texttt{b6c00ef8d94ff578585b428270df1af271a96bd6}.
+All \texttt{.lean} files, \texttt{lakefile.toml}, \texttt{lake-manifest.json},
+\texttt{lean-toolchain}, and \texttt{comparator.json} are byte-identical
+at that commit and at the release tag \texttt{lowhalf-arxiv-v2}.
+The registered run at that commit builds the Challenge and Solution modules and runs
 \texttt{lake comparator}. The Lean kernel, \texttt{nanoda} and \texttt{con-ron}
 accept the solution, and the only axioms are \texttt{propext},
 \texttt{Classical.choice} and \texttt{Quot.sound}.

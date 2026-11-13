@@ -58,8 +58,8 @@
 ARXIV-METADATA-BEGIN
 Title: The multiplicative complexity of the three-bit low-half multiplier
 Authors: Bshara Alhodali (E\"otv\"os Lor\'and University), Gregory Morse (E\"otv\"os Lor\'and University)
-Abstract: We prove that the multiplicative complexity of the three-bit low-half multiplier is six, giving a structural, enumeration-free lower-bound proof valid against unrestricted nonlinear reuse in Boolean XOR-AND circuits. The value was previously established by SAT searches of the second author. An explicit six-AND circuit supplies the upper bound. The lower bound combines derivatives, quadratic products, complementary minors, and extraction modulo a Boolean ideal. Independent finite checks accompany the arguments. $\mathrm{MC}(M_3)=6$ is fully formalized in Lean 4. The kernel-checked proof uses only the axioms propext, Classical.choice and Quot.sound.
-Comments: 21 pages, 1 table. Lean formalization and verification artifacts: https://github.com/bishara74/lowhalf-mul3
+Abstract: We prove that the multiplicative complexity of the three-bit low-half multiplier is six, giving a structural, enumeration-free lower-bound proof valid against unrestricted nonlinear reuse in Boolean XOR-AND circuits. The value was previously established by SAT searches of the second author. An explicit six-AND circuit supplies the upper bound. The lower bound combines derivatives, quadratic products, complementary minors, and extraction modulo a Boolean ideal. Independent finite checks accompany the arguments. $\mathrm{MC}(M_3)=6$ is fully formalized in Lean 4, using only Lean's three standard axioms (propositional extensionality, choice and quotient soundness).
+Comments: 21 pages, 1 table. The Lean 4 formalization and verification artifacts are linked in the paper (Appendix A).
 Subjects: Computational Complexity (cs.CC); Combinatorics (math.CO); Logic in Computer Science (cs.LO)
 MSC classes: 68Q06 (Primary), 68Q17, 94D10 (Secondary)
 ACM classes: F.1.3
@@ -75,7 +75,7 @@ ARXIV-METADATA-END
 \begin{document}
 \maketitle
 \begin{abstract}
-We prove that the multiplicative complexity of the three-bit low-half multiplier is six, giving a structural, enumeration-free lower-bound proof valid against unrestricted nonlinear reuse in Boolean XOR--AND circuits. The value was previously established by SAT searches of the second author. An explicit six-AND circuit supplies the upper bound. The lower bound combines derivatives, quadratic products, complementary minors, and extraction modulo a Boolean ideal. Independent finite checks accompany the arguments. \LeanReleaseStatus
+We prove that the multiplicative complexity of the three-bit low-half multiplier is six, giving a structural, enumeration-free lower-bound proof valid against unrestricted nonlinear reuse in Boolean XOR--AND circuits. The value was previously established by SAT searches of the second author. An explicit six-AND circuit supplies the upper bound. The lower bound combines derivatives, quadratic products, complementary minors, and extraction modulo a Boolean ideal. Independent finite checks accompany the arguments. $\mathrm{MC}(M_3)=6$ is fully formalized in Lean~4, using only Lean's three standard axioms (propositional extensionality, choice and quotient soundness).
 \end{abstract}
 \setcounter{tocdepth}{1}
 \tableofcontents
